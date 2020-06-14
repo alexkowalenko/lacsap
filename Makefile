@@ -1,7 +1,7 @@
 OBJECTS = lexer.o source.o location.o token.o expr.o parser.o types.o constants.o builtin.o \
 	  binary.o lacsap.o namedobject.o semantics.o trace.o stack.o utils.o callgraph.o
 
-LLVM_DIR ?= /usr/local/llvm-debug
+LLVM_DIR ?= /Volumes/Lyon/Source/lacsap/LLVM_Binaries
 
 # If not specified, use clang and enable 32-bit build.
 USECLANG ?= 1
@@ -75,7 +75,7 @@ llvmversion:
 	awk -e '{ print "git clone " substr($$6, 2) " llvm && cd llvm && git checkout " substr($$7, 0, length($$7)-1); }' > $@
 
 clean:
-	rm -f ${OBJECTS} libruntime.a llvmversion
+	rm -f ${OBJECTS} libruntime.a
 	make -C test clean
 	make -C runtime clean .depends
 
