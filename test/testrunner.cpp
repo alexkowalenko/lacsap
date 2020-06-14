@@ -10,7 +10,7 @@
 
 std::string compilers[] = 
 {
-    "../lacsap", 
+    "../bin/lacsap", 
     "fpc -Mdelphi" 
 };
 std::string compiler = compilers[0];
@@ -498,7 +498,8 @@ int main(int argc, char **argv)
     std::vector<std::string> optimizations = { "", "-O0", "-O1", "-O2" };
     std::vector<std::string> models = { "",
 #if M32_DISABLE == 0
-					"-m32", "-m64"
+					// "-m32", 
+                    "-m64"
 #endif
     };
     std::vector<std::string> others = { "", "-Cr", "-g" };
