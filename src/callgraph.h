@@ -1,23 +1,20 @@
-#ifndef CALLGRAPH_H
+#pragma once
+
 #include "expr.h"
 
-class CallGraphVisitor
-{
-public:
+class CallGraphVisitor {
+  public:
     virtual ~CallGraphVisitor() {}
-    virtual void Caller(FunctionAST* f) {}
-    virtual void Process(FunctionAST* f) {}
-    virtual void VarDecl(VarDeclAST* v) {}
+    virtual void Caller(FunctionAST *f) {}
+    virtual void Process(FunctionAST *f) {}
+    virtual void VarDecl(VarDeclAST *v) {}
 };
 
-class CallGraphPrinter : public CallGraphVisitor
-{
-public:
-    virtual void Process(FunctionAST* f);
-    virtual void Caller(FunctionAST* f);
+class CallGraphPrinter : public CallGraphVisitor {
+  public:
+    virtual void Process(FunctionAST *f);
+    virtual void Caller(FunctionAST *f);
 };
 
-void CallGraph(ExprAST *ast, CallGraphVisitor& visitor);
-void BuildClosures(ExprAST* ast);
-
-#endif
+void CallGraph(ExprAST *ast, CallGraphVisitor &visitor);
+void BuildClosures(ExprAST *ast);

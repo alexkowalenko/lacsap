@@ -1,16 +1,14 @@
-#include <stdlib.h>
 #include "runtime.h"
+#include <stdlib.h>
 
 /*******************************************
  * Memory allocation functions
  *******************************************
  */
-void* __new(int size)
-{
+void *__new(int size) {
     return malloc(size);
 }
 
-void __dispose(void* ptr)
-{
+void __dispose(void *ptr) {
     free(ptr);
 }

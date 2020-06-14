@@ -6,6 +6,10 @@
 
 cmake_minimum_required(VERSION 3.16)
 
+# Change compiler here
+set(AX_BASE_CLANG /usr/local/opt/llvm)
+set(CMAKE_CXX_COMPILER ${AX_BASE_CLANG}/bin/clang++)
+
 project(lacsap VERSION 0.2 
                LANGUAGES CXX C)
 
@@ -24,9 +28,9 @@ endif()
  
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_11)
+target_compile_features(project_options INTERFACE cxx_std_17)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

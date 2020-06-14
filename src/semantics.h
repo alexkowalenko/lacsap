@@ -1,27 +1,22 @@
-#ifndef SEMANTICS_H
-#define SEMANTICS_H
+#pragma once
 
 #include <vector>
 
 class ExprAST;
 class SemaFixup;
 
-class Semantics
-{
-public:
+class Semantics {
+  public:
     Semantics() : errors(0) {}
-    ~Semantics() { }
+    ~Semantics() {}
 
-    void Analyse(ExprAST* ast);
-    int GetErrors() { return errors; }
+    void Analyse(ExprAST *ast);
+    int  GetErrors() { return errors; }
     void AddError() { errors++; }
     void AddFixup(SemaFixup *f);
     void RunFixups();
 
-private:
+  private:
     int                      errors;
-    std::vector<SemaFixup*> fixups;
+    std::vector<SemaFixup *> fixups;
 };
-
-
-#endif

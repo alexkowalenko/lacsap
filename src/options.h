@@ -1,29 +1,24 @@
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#pragma once
 
 #include <string>
 
-enum EmitType
-{
+enum EmitType {
     Exe, // Default
     LlvmIr,
 };
 
-enum OptLevel
-{
+enum OptLevel {
     O0,
     O1,
     O2,
 };
 
-enum Model
-{
+enum Model {
     m32,
     m64,
 };
 
-enum Standard
-{
+enum Standard {
     none,
     iso7185,
     iso10206,
@@ -41,4 +36,3 @@ extern bool        caseInsensitive;
 extern EmitType    emitType;
 extern Standard    standard;
 extern std::string libpath;
-#endif
