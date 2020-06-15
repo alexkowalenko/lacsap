@@ -10,3 +10,4 @@ lacsap
 .\#*
 cscope.out
 build
+.vscode/*

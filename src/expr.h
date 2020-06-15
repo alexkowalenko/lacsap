@@ -128,7 +128,7 @@ class IntegerExprAST : public ExprAST {
 class CharExprAST : public IntegerExprAST {
   public:
     CharExprAST(const Location &w, char v, Types::TypeDecl *ty)
-        : IntegerExprAST(w, EK_CharExpr, v, ty) {}
+        : IntegerExprAST(w, EK_CharExpr, uint64_t(v), ty) {}
     void         DoDump(std::ostream &out) const override;
     llvm::Value *CodeGen() override;
     static bool  classof(const ExprAST *e) { return e->getKind() == EK_CharExpr; }

@@ -23,7 +23,7 @@ template <typename T> class Stack {
     Stack() { NewLevel(); }
     void NewLevel() { stack.push_back(MapType()); }
 
-    size_t MaxLevel() const { return stack.size() - 1; }
+    size_t MaxLevel() const { return size_t(stack.size() - 1); }
 
     std::vector<T> GetLevel() {
         std::vector<T> v;
@@ -61,7 +61,7 @@ template <typename T> class Stack {
     }
 
     T Find(std::string name, size_t &level) const {
-        int lvl = MaxLevel();
+        size_t lvl = MaxLevel();
         if (verbosity > 1) {
             std::cerr << "Finding value: " << name << std::endl;
         }

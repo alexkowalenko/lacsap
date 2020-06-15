@@ -1,8 +1,18 @@
 #pragma once
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #include <llvm/IR/DIBuilder.h>
 #include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/Type.h>
+#pragma clang diagnostic pop
+
 #include <string>
 
 class PrototypeAST;
@@ -31,7 +41,7 @@ class Range {
   public:
     int64_t Start() const { return start; }
     int64_t End() const { return end; }
-    size_t  Size() const { return (size_t)(end - start) + 1; }
+    size_t  Size() const { return size_t((end - start) + 1); }
     void    dump() const;
     void    DoDump(std::ostream &out) const;
 
@@ -118,13 +128,13 @@ class ForwardDecl : public TypeDecl {
     ForwardDecl(const std::string &nm) : TypeDecl(TK_Forward) { Name(nm); }
     bool IsIncomplete() const override { return true; }
     bool HasLlvmType() const override { return false; }
-    bool SameAs(const TypeDecl *ty) const override { return false; }
+    bool SameAs(const TypeDecl *) const override { return false; }
     void DoDump(std::ostream &out) const override { out << std::string{"Forward "} << Name(); }
     llvm::Type *GetLlvmType() const override {
         assert(0 && "No llvm type for forward decls");
         return 0;
     }
-    llvm::DIType *GetDIType(llvm::DIBuilder *builder) const override {
+    llvm::DIType *GetDIType(llvm::DIBuilder *) const override {
         assert(0 && "No debug type for forward decls");
         return 0;
     }
@@ -204,14 +214,14 @@ class RealDecl : public BasicTypeDecl {
 class VoidDecl : public BasicTypeDecl {
   public:
     VoidDecl() : BasicTypeDecl(TK_Void) {}
-    const TypeDecl *CompatibleType(const TypeDecl *ty) const override { return 0; }
+    const TypeDecl *CompatibleType(const TypeDecl *) const override { return 0; }
     bool            HasLlvmType() const override { return true; }
     void            DoDump(std::ostream &out) const override;
     static bool     classof(const TypeDecl *e) { return e->getKind() == TK_Void; }
 
   protected:
     llvm::Type *  GetLlvmType() const override;
-    llvm::DIType *GetDIType(llvm::DIBuilder *builder) const override { return 0; }
+    llvm::DIType *GetDIType(llvm::DIBuilder *) const override { return 0; }
 };
 
 class CompoundDecl : public TypeDecl {
@@ -242,8 +252,8 @@ class RangeDecl : public CompoundDecl {
     void            DoDump(std::ostream &out) const override;
     static bool     classof(const TypeDecl *e) { return e->getKind() == TK_Range; }
     bool            SameAs(const TypeDecl *ty) const override;
-    int             Start() const { return range->Start(); }
-    int             End() const { return range->End(); }
+    int             Start() const { return int(range->Start()); }
+    int             End() const { return int(range->End()); }
     TypeKind        Type() const override { return SubType()->Type(); }
     bool            IsCompound() const override { return false; }
     bool            IsIntegral() const override { return true; }
@@ -310,7 +320,7 @@ class EnumDecl : public CompoundDecl {
     void SetValues(const std::vector<std::string> &nmv);
 
   public:
-    Range *           GetRange() const override { return new Range(0, values.size() - 1); }
+    Range *           GetRange() const override { return new Range(0, long(values.size()) - 1); }
     const EnumValues &Values() const { return values; }
     bool              IsIntegral() const override { return true; }
     bool              IsUnsigned() const override { return true; }
@@ -395,7 +405,7 @@ class FunctionDecl : public CompoundDecl {
 class FieldDecl : public CompoundDecl {
   public:
     enum Access { Private, Protected, Public };
-    FieldDecl(const std::string &nm, TypeDecl *ty, bool stat, Access ac = Public)
+    FieldDecl(const std::string &nm, TypeDecl *ty, bool stat, Access = Public)
         : CompoundDecl(TK_Field, ty), isStatic(stat) {
         Name(nm);
     }
@@ -428,7 +438,7 @@ class FieldCollection : public TypeDecl {
         return fields[n];
     }
     void        EnsureSized() const;
-    virtual int FieldCount() const { return fields.size(); }
+    virtual int FieldCount() const { return int(fields.size()); }
     bool        IsCompound() const override { return true; }
     bool        SameAs(const TypeDecl *ty) const override;
     bool        HasLlvmType() const override { return lType; }
@@ -497,7 +507,7 @@ class MemberFuncDecl : public TypeDecl {
   protected:
     // We don't actually have an LLVM type for member functions.
     llvm::Type *  GetLlvmType() const override { return 0; }
-    llvm::DIType *GetDIType(llvm::DIBuilder *builder) const override { return 0; }
+    llvm::DIType *GetDIType(llvm::DIBuilder *) const override { return 0; }
 
   private:
     PrototypeAST *proto;

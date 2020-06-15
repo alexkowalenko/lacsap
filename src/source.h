@@ -16,7 +16,7 @@ class FileSource : public Source {
   public:
     FileSource(const std::string &name) : name(name), input(name), column(1), lineNo(1) {}
     char Get() override;
-         operator bool() const override { return (bool)input; }
+         operator bool() const override { return bool(input); }
          operator Location() const override { return Location(name, lineNo, column); }
 
   private:

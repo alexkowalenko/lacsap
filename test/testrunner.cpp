@@ -73,12 +73,19 @@ TestCase::TestCase(const std::string &nm, const std::string &src, const std::str
     : name(nm), source(src), args(arg) {}
 
 void TestCase::Clean() {
-    std::string resname = replace_ext(source, ".pas", ".res");
-    remove(resname.c_str());
-    std::string exename = replace_ext(source, ".pas", "");
-    remove(exename.c_str());
-    std::string objname = replace_ext(source, ".pas", ".o");
-    remove(objname.c_str());
+    auto        prefix = Dir() + "/";
+    std::string resname = prefix + replace_ext(source, ".pas", ".res");
+    if (auto status = remove(resname.c_str()); status) {
+        // std::cout << "not removed: " << resname << '\n';
+    }
+    std::string exename = prefix + replace_ext(source, ".pas", "");
+    if (auto status = remove(exename.c_str()); status) {
+        // std::cout << "not removed: " << exename << '\n';
+    }
+    std::string objname = prefix + replace_ext(source, ".pas", ".o");
+    if (auto status = remove(objname.c_str()); status) {
+        // std::cout << "not removed: " << objname << '\n';
+    }
 }
 
 bool TestCase::Compile(const std::string &options) {
@@ -415,6 +422,7 @@ void runTestCases(const std::vector<TestCase *> &tc, TestResult &res, const std:
                     res.RegisterFail(t, "result");
                 } else {
                     res.RegisterPass(t);
+                    t->Clean();
                 }
             }
         }

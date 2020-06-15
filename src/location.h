@@ -5,7 +5,7 @@
 
 class Location {
   public:
-    Location(const std::string &file, int line, int col)
+    Location(const std::string &file, unsigned int line, unsigned int col)
         : fname(file), lineNum(line), column(col) {}
     Location() : fname(""), lineNum(0), column(0) {}
     std::string  to_string() const;

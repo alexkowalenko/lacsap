@@ -9,7 +9,7 @@ var
 
 procedure Sieve;
 var
-    i,j: LongInt;
+    i,j: integer;
 begin
    for i := 1 to maxNum do
       Data[i] := true;

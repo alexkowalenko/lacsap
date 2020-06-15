@@ -8,7 +8,16 @@
 #include "semantics.h"
 #include "source.h"
 #include "trace.h"
+
 #include <iostream>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wenum-enum-conversion"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #include <llvm/Analysis/Passes.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/Support/CommandLine.h>
@@ -16,6 +25,7 @@
 #include <llvm/Transforms/IPO.h>
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Transforms/Scalar/GVN.h>
+#pragma clang diagnostic pop
 
 llvm::legacy::PassManager *mpm;
 llvm::Module *             theModule;
@@ -144,12 +154,12 @@ static int Compile(const std::string &fileName) {
     }
 
     if (callGraph) {
-        CallGraphPrinter p;
-        CallGraph(ast, p);
+        CallGraphPrinter printer;
+        CallGraph(ast, printer);
     }
 
     {
-        TIME_TRACE();
+        // TIME_TRACE();
         if (!ast->CodeGen()) {
             std::cerr << "Sorry, something went wrong here..." << std::endl;
             ast->dump(std::cerr);
