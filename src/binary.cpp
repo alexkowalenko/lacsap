@@ -40,10 +40,15 @@ static llvm::ToolOutputFile *GetOutputStream(const std::string &filename) {
 
 static void CreateObject(llvm::Module *module, const std::string &objname) {
     TIME_TRACE();
-    llvm::InitializeAllTargets();
-    llvm::InitializeAllTargetMCs();
-    llvm::InitializeAllAsmPrinters();
-    llvm::InitializeAllAsmParsers();
+
+    // llvm::InitializeAllTargets();
+    // llvm::InitializeAllTargetMCs();
+    // llvm::InitializeAllAsmPrinters();
+    // llvm::InitializeAllAsmParsers();
+
+    llvm::InitializeNativeTarget();
+    llvm::InitializeNativeTargetAsmParser();
+    llvm::InitializeNativeTargetAsmPrinter();
 
     std::string         error;
     llvm::Triple        triple = llvm::Triple(module->getTargetTriple());

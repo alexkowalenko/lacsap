@@ -30,7 +30,7 @@ endif()
 
 
 # LLVM
-set(CMAKE_PREFIX_PATH /Volumes/Lyon/Source/lacsap/LLVM_Binaries)
+set(CMAKE_PREFIX_PATH /usr/local/opt/llvm@6)
 find_package(LLVM REQUIRED CONFIG)
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 

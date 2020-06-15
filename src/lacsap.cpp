@@ -169,7 +169,7 @@ static int Compile(const std::string &fileName) {
     }
 
     if (verbosity) {
-        theModule->dump();
+        theModule->print(llvm::outs(), nullptr);
     }
     mpm->run(*theModule);
     if (!CreateBinary(theModule, fileName, EmitSelection)) {

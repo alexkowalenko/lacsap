@@ -29,7 +29,7 @@ template <> void Stack<llvm::Value *>::dump(std::ostream &out) const {
         n++;
         for (auto v : s) {
             out << v.first << ": ";
-            v.second->dump();
+            v.second->print(llvm::outs());
             out << std::endl;
         }
     }
@@ -963,9 +963,9 @@ llvm::Value *BinaryExprAST::CodeGen() {
         }
     }
 
-    l->dump();
+    l->print(llvm::outs());
     oper.dump(std::cout);
-    r->dump();
+    r->print(llvm::outs());
     assert(0 && "Should not get here!");
     return 0;
 }
